@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### kata ###
+src/main/java/ru/kata/spring/boot_security/demo/main
+src/main/java/ru/kata/spring/boot_security/demo/sql

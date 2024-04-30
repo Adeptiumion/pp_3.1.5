@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Create new user</title>
+    <link rel="stylesheet" href="/style.css"/>
+</head>
+<body>
+
+<!--
+ form:
+ action - то куда посылаем данные.
+ object - сюда ключ объекта, переданного в модель.
+
+ input:
+ field - поле объекта модели подставляемое в тег <input>.
+ -->
+<div class="centralization">
+    <div class="create_block">
+        <form th:method="POST" th:action="@{/admin}" th:object="${user}">
+
+            <div class="centralization">
+                <label>
+                    <input class="input" placeholder="Имя" type="text" th:field="*{name}">
+                    <div class="validate_block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name invalid
+                    </div>
+                </label>
+            </div>
+            <br/>
+
+            <div class="centralization">
+                <label>
+                    <select class="variable_input" name="role" id="role">
+                        <option value="ADMIN">
+                            ADMIN
+                        </option>
+                        <option value="USER">
+                            USER
+                        </option>
+                    </select>
+                </label>
+            </div>
+            <br/>
+
+            <div class="centralization">
+                <label>
+                    <input class="input" placeholder="Пароль" type="password" th:field="*{password}">
+                    <div class="validate_block" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+                        Password
+                        Invalid
+                    </div>
+                </label>
+            </div>
+            <br/>
+
+            <button type="submit" class="truncate_button">Создать пользователя.</button>
+        </form>
+    </div>
+</div>
+
+<div class="centralization">
+    <a href="/logout" class="link">
+        <div class="logout_button">
+            Разлогиниться
+        </div>
+    </a>
+</div>
+
+</body>
+</html>

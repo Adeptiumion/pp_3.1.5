@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/style.css"/>
+    <title>Update roles of user</title>
+</head>
+<body>
+
+
+<div class="centralization">
+
+    <div class="create_block">
+
+        <div class="centralization">
+            <div class="current_user_block" th:text="${'Роли: ' + current_user.getName()}">
+
+            </div>
+        </div>
+        <form th:method="POST" th:action="@{/admin/update_roles(id=${current_user.getId()})}">
+
+            <div class="centralization" th:each="role : ${current_user.getRoles()}">
+                <div class="up_block" th:text="${role.getValueOfRole()}">
+
+                </div>
+            </div>
+
+            <div class="centralization">
+                <label>
+                    <select class="variable_input" name="role" id="role" th:if="${!marker}">
+                        <option value="ADMIN" th:if="${!roles_by_strings.contains('ROLE_ADMIN')}">
+                            ADMIN
+                        </option>
+                        <option value="USER" th:if="${!roles_by_strings.contains('ROLE_USER')}">
+                            USER
+                        </option>
+                    </select>
+                </label>
+            </div>
+
+            <button class="truncate_button" th:if="${!marker}" type="submit">Добавить роль юзверю</button>
+
+        </form>
+    </div>
+
+    <div class="right_block">
+
+        <div class="centralization">
+            <div class="hidden_block"></div>
+        </div>
+
+
+        <div class="centralization" th:each="role : ${current_user.getRoles()}">
+            <form th:method="POST" th:action="@{/admin/delete_role(role_id=${role.getId()})}">
+                <div class="delete_label">
+                    <button type="submit">
+                        X
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+<div class="centralization">
+    <a href="/logout" class="link">
+        <div class="logout_button">
+            Создать нового пользователя
+        </div>
+    </a>
+</div>
+
+<div class="console_log">
+    <span class="console_label">console</span>
+    <p th:text="'Id? → '+${current_user.getId()}"></p>
+    <p th:text="'Name? → '+${current_user.getName()}"></p>
+    <p th:text="'Password? → '+${current_user.getPassword()}"></p>
+    <p th:text="'roles of user: '+${current_user.getRoles()}"></p>
+    <p th:text="'Have all roles? → '+${marker}"></p>
+    <p th:text="'Have role ADMIN? → '+${roles_by_strings.contains('ROLE_ADMIN')}"></p>
+    <p th:text="'Have role USER? → '+${roles_by_strings.contains('ROLE_USER')}"></p>
+</div>
+
+</body>
+</html>

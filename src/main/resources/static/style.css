@@ -1,0 +1,266 @@
+.user_block {
+    width: 340px;
+    height: 30px;
+    color: #4f6024;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #A8F000;
+    border-radius: 10px;
+    padding: 8px;
+    margin: 10px;
+}
+
+.sumbit_block {
+    width: 340px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #6D9C00;
+    border-radius: 10px;
+    padding: 8px;
+    margin: 10px;
+}
+
+.logout_button {
+    font-size: 50%;
+    width: 120px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #6D9C00;
+    border-radius: 10px;
+    padding: 8px;
+    margin: 10px;
+}
+
+.up_block {
+    width: 340px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-radius: 10px;
+    padding: 8px;
+    margin: 10px;
+}
+
+.current_user_block {
+    border: 1px #6D9C00 solid;
+    width: 340px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    font-size: 150%;
+    justify-content: center;
+    background-color: #f5ff00;
+    border-radius: 10px;
+    padding: 8px;
+    margin: 10px;
+}
+
+.hidden_block {
+    /*border: 1px #6D9C00 solid;*/
+    width: 80px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    font-size: 150%;
+    justify-content: center;
+    background-color: #A8F000;
+    border-radius: 10px;
+    padding: 8px;
+    margin: 10px;
+}
+
+.truncate_block {
+    width: 200px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fc0202;
+    border-radius: 10px;
+    padding: 8px;
+    margin: 10px;
+}
+
+.link {
+    font-size: 150%;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.up_link {
+    font-size: 150%;
+    color: #4f6024;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.centralization {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.create_block {
+    width: 22%;
+    background-color: #A8F000;
+    border-radius: 10px;
+    padding: 8px;
+    margin: 10px;
+}
+
+.right_block{
+    width: 3%;
+    background-color: #A8F000;
+    border-radius: 10px;
+    padding: 8px;
+    margin: 10px;
+}
+
+.delete_second_block{
+    width: 11%;
+    background-color: #A8F000;
+    border-radius: 10px;
+    padding: 8px;
+    margin: 10px;
+}
+
+
+.update_block {
+    width: 300px;
+    background-color: #8BB42D;
+    border-radius: 10px;
+    padding: 8px;
+    margin: 10px;
+}
+
+.sumbit {
+    margin: 3px auto auto;
+    display: block;
+}
+
+.delete_button {
+    background: #cc0000;
+    margin: 3px auto auto;
+    display: block;
+}
+
+.validate_block {
+    width: 83%;
+    background-color: #ef945a;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 5px auto;
+    text-align: center;
+}
+
+input::placeholder {
+    text-align: center;
+}
+
+.input {
+    font-size: 200%;
+    text-align: center;
+    align-items: center;
+    width: 350px;
+    height: 33px;
+    display: flex;
+    justify-content: center;
+}
+
+.variable_input {
+    font-size: 150%;
+    text-align: center;
+    align-items: center;
+    width: 358px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.user_item {
+    height: 20px;
+    width: 20px;
+
+}
+
+.truncate_button {
+    font-size: 130%;
+    color: white;
+    background-color: #6D9C00;
+    border: 0;
+    width: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 8px;
+    margin: 3px auto auto;
+}
+
+.rofl_button {
+    font-size: 130%;
+    color: white;
+    background-color: #9c0000;
+    border: 0;
+    width: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 8px;
+    margin: 3px auto auto;
+}
+
+.console_log{
+    position: relative;
+    border-radius: 20px 0px 0px 20px;
+    width: 22%;
+    border: 1px solid;
+    max-height: 150px;
+    overflow: auto;
+    margin: auto;
+}
+.console_log p{
+    padding-left: 10px;
+    text-align: left;
+}
+
+.console_label{
+    font-family: Consolas, serif;
+    color: #cc0000;
+    top: 1%;
+    padding-top: 10px;
+    padding-left: 10px;
+    position: sticky;
+    left: 5%;
+    display: block;
+    z-index: 1;
+}
+
+.delete_label{
+    width: 40px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #A8F000;
+    border-radius: 10px;
+    padding: 8px;
+    margin: 10px;
+}
+
+.del{
+    background-image: url("trash.png");
+}
