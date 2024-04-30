@@ -12,6 +12,7 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
+
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -38,16 +39,10 @@ public class AdminController {
     }
 
     @PostMapping()
-    public String create
-            (
-                    @RequestParam("role") String role,
-                    @ModelAttribute("user") @Valid User user,
-                    BindingResult bindingResult
-            ) {
+    public String create(@RequestParam("role") String role, @ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
         validator.validate(user, bindingResult);
 
-        if (bindingResult.hasErrors())
-            return "admin/create_new_user";
+        if (bindingResult.hasErrors()) return "admin/create_new_user";
 
         Role insertableRole = new Role(role); // Передаваемая роль.
         insertableRole.setOwner(user); // "Сетаю" владельца роли.
@@ -72,15 +67,9 @@ public class AdminController {
     }
 
     @PostMapping("/update")
-    public String update
-            (
-                    @RequestParam("id") String id,
-                    @ModelAttribute("user_with_id") @Valid User user,
-                    BindingResult bindingResult
-            ) {
+    public String update(@RequestParam("id") String id, @ModelAttribute("user_with_id") @Valid User user, BindingResult bindingResult) {
         validator.validate(user, bindingResult);
-        if (bindingResult.hasErrors())
-            return "admin/update_user";
+        if (bindingResult.hasErrors()) return "admin/update_user";
 
 
         userService.update(Integer.parseInt(id), user);
@@ -126,11 +115,7 @@ public class AdminController {
     }
 
     @PostMapping("/update_roles")
-    public String updateRoles
-            (
-                    @RequestParam("id") String id,
-                    @RequestParam("role") String futureRole
-            ) {
+    public String updateRoles(@RequestParam("id") String id, @RequestParam("role") String futureRole) {
         int ownerId = Integer.parseInt(id); // Вынесу в отдельную переменную пропарсенный в целочисленный вид id-шник.
         User user = userService.readOne(ownerId); // Получаю юзверя и выношу для дальнейшей передачи в метод обновления юзверя.
         Role insertableRole = new Role(futureRole); // Присваемая роль юзверю.
@@ -138,21 +123,12 @@ public class AdminController {
         user.addRole(insertableRole); // Передаю роль в пул ролей юзверю.
         userService.update(ownerId, user); // Обновляю юзверя с новой ролью.
         roleService.create(insertableRole); // Заношу присвоенную роль в базу.
-        adminLogger.info
-                (
-                        "\n\nUser: \n" +
-                                userService.readOne(ownerId) +
-                                "\nroles: " +
-                                userService.readOne(ownerId).getRoles() + "\n\n"
-                );
+        adminLogger.info("\n\nUser: \n" + userService.readOne(ownerId) + "\nroles: " + userService.readOne(ownerId).getRoles() + "\n\n");
         return "redirect:/admin/update_roles_page?id=" + id;
     }
 
     @PostMapping("/delete_role")
-    public String deleteRoleOfUser
-            (
-                    @RequestParam("role_id") String roleId
-            ) {
+    public String deleteRoleOfUser(@RequestParam("role_id") String roleId) {
         Role role = roleService.findOne(Integer.parseInt(roleId));
         User user = userService.readOne(role.getOwner().getId());
         user.getRoles().remove(role);

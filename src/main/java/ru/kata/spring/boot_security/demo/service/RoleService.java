@@ -7,8 +7,6 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 
-import java.util.Optional;
-
 @Service
 @Transactional(readOnly = true)
 public class RoleService {

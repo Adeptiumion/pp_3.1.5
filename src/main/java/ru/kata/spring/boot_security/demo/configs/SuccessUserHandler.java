@@ -7,10 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.security.UserDetailsImpl;
 import ru.kata.spring.boot_security.demo.service.UserService;
-
 import java.io.IOException;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -28,12 +25,7 @@ public class SuccessUserHandler implements AuthenticationSuccessHandler {
 
     // Spring Security использует объект Authentication, пользователя авторизованной сессии.
     @Override
-    public void onAuthenticationSuccess
-    (
-            HttpServletRequest request,
-            HttpServletResponse response,
-            Authentication authentication
-    ) throws IOException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
         if (roles.contains("ROLE_USER") && !roles.contains("ROLE_ADMIN")) {
