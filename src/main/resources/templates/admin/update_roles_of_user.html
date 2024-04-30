@@ -41,12 +41,17 @@
             <button class="truncate_button" th:if="${!marker}" type="submit">Добавить роль юзверю</button>
 
         </form>
+
     </div>
 
     <div class="right_block">
 
         <div class="centralization">
-            <div class="hidden_block"></div>
+            <a href="/logout" class="link">
+                <div class="logout_button">
+                    ВЫХОД
+                </div>
+            </a>
         </div>
 
 
@@ -60,16 +65,16 @@
             </form>
         </div>
 
+        <div class="centralization">
+            <div class="hidden_block" th:if="${!marker}">
+
+            </div>
+        </div>
     </div>
 
 </div>
-<div class="centralization">
-    <a href="/logout" class="link">
-        <div class="logout_button">
-            Создать нового пользователя
-        </div>
-    </a>
-</div>
+
+
 
 <div class="console_log">
     <span class="console_label">console</span>
@@ -81,6 +86,8 @@
     <p th:text="'Have role ADMIN? → '+${roles_by_strings.contains('ROLE_ADMIN')}"></p>
     <p th:text="'Have role USER? → '+${roles_by_strings.contains('ROLE_USER')}"></p>
 </div>
+
+
 
 </body>
 </html>
