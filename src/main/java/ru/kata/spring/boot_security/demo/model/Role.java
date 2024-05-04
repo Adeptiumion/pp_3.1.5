@@ -1,46 +1,62 @@
 package ru.kata.spring.boot_security.demo.model;
 
-
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "role")
+@Getter
+@Setter
 public class Role implements GrantedAuthority {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "value_of_role")
     private String valueOfRole;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User owner;
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    private Set<User> owners;
 
     // Константа сравнение с которой дает понимание нужно ли вообще отображать select-кнопку и кнопку добавления роли.
+    @Getter
     private static final Set<Role> fullRolesContainer = Set.of
             (
                     new Role("USER"),
                     new Role("ADMIN")
             );
 
-    public static Set<Role> getFullRolesContainer() {
-        return fullRolesContainer;
-    }
+    public static final Role USER = new Role("USER");
+    public static final Role ADMIN = new Role("ADMIN");
 
     public static List<String> getRolesByStrings(Set<Role> set) {
         return set.stream().map(e -> "ROLE_" + e.getValueOfRole()).toList();
     }
 
-    public Role(){}
+    public void addOwner(User user) {
+        if (owners == null)
+            owners = new HashSet<>();
+        owners.add(user);
+    }
 
-    public Role (String valueOfRole){
+    public Role() {
+
+    }
+
+    public Role(String valueOfRole) {
         this.valueOfRole = valueOfRole;
+    }
+
+    public void removeOwnerById(int id) {
+        owners.removeIf(e -> e.getId() == id);
     }
 
     @Override
@@ -53,27 +69,4 @@ public class Role implements GrantedAuthority {
         return getAuthority();
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getValueOfRole() {
-        return valueOfRole;
-    }
-
-    public void setValueOfRole(String valueOfRole) {
-        this.valueOfRole = valueOfRole;
-    }
-
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
 }

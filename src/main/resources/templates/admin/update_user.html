@@ -17,7 +17,6 @@
                     <input class="input" placeholder="Имя" type="text" th:field="*{name}">
                 </label>
             </div>
-            <div class="validate_block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name invalid</div>
             <br/>
 
             <div class="centralization">
@@ -25,7 +24,6 @@
                     <input class="input" placeholder="Пароль" type="password" th:field="*{password}">
                 </label>
             </div>
-            <div class="validate_block" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password invalid</div>
             <br/>
              <a th:href="@{/admin/update_roles_page(id=${user_with_id.getId()})}" class="up_link">
                  <div class="up_block">

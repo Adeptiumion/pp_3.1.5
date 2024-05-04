@@ -20,9 +20,7 @@
         <form th:method="POST" th:action="@{/admin/update_roles(id=${current_user.getId()})}">
 
             <div class="centralization" th:each="role : ${current_user.getRoles()}">
-                <div class="up_block" th:text="${role.getValueOfRole()}">
-
-                </div>
+                <div class="up_block" th:text="${role.getValueOfRole()}"></div>
             </div>
 
             <div class="centralization">
@@ -56,7 +54,7 @@
 
 
         <div class="centralization" th:each="role : ${current_user.getRoles()}">
-            <form th:method="POST" th:action="@{/admin/delete_role(role_id=${role.getId()})}">
+            <form th:method="POST" th:action="@{/admin/delete_role(role_id=${role.getId()}, owner_id=${current_user.getId()})}">
                 <div class="delete_label">
                     <button type="submit">
                         X

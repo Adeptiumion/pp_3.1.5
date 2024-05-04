@@ -7,7 +7,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Integer> {
+    void deleteByOwners(User owner);
+    Role findByValueOfRole(String value);
 
-    void deleteByOwner(User owner);
-    Role findByOwner(User user);
 }

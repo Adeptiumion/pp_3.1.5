@@ -1,72 +1,47 @@
 package ru.kata.spring.boot_security.demo.model;
 
-
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements UserDetails {
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "name")
-    @NotEmpty(message = "У вас не может быть пустого имени")
-    @Pattern(regexp = "[a-zA-Z а-яА-Я]+", message = "Имя должно содержать только буквы!")
-    @Size(min = 2, max = 10, message = "Число символов должно быть от 2 до 10!")
     private String name;
-
-    @Column(name = "password")
-    @Size(min = 4, max = 64, message = "Пароль должен содержать минимум 4 символа и  максимум 64!")
     private String password;
-    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
-    private Set<Role> roles; // 2 раза писать, что юзверь-админ не хочу. Поэтому в сет роли кладу.
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @JoinTable
+            (
+                    name = "user_role",
+                    joinColumns = @JoinColumn(name = "user_id"),
+                    inverseJoinColumns = @JoinColumn(name = "role_id")
+            )
+    private Set<Role> roles;
 
-    public User() {
 
-    }
-
-
-    public User(String name, Set<Role> roles) {
+    public User(String name, String password, Set<Role> roles) {
         this.name = name;
+        this.password = password;
         this.roles = roles;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public User(String name, String password) {
         this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
         this.password = password;
     }
+    public User() {
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
     }
 
     public void addRole(Role role) {
@@ -75,9 +50,47 @@ public class User {
         roles.add(role);
     }
 
-
     @Override
     public String toString() {
         return "\nid is --- " + getId() + "\nname is --- " + getName() + "\nroles is --- " + getRoles() + "\n";
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.getRoles();
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.getName();
+    }
+
+    /**
+     * Ниже везде ставлю 'true' для заглушки.
+     */
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

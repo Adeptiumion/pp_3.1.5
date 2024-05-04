@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Show all users</title>
     <link rel="stylesheet" href="/style.css"/>
-    <link rel="stylesheet" href="C:/Users/79520/Desktop/Kata Academy Projects/PP_3_1_2_Boot_Security/src/main/resources/static/style.css"/>
 </head>
 <body>
 <div th:each="user : ${users}" class="centralization">
@@ -20,11 +19,6 @@
         </div>
     </a>
 </div>
-<form th:method="POST" th:action="@{/admin/truncate_all}">
-    <div class="centralization">
-        <button class="rofl_button" type="submit">Очистить базу данных</button>
-    </div>
-</form>
 <div class="centralization">
     <a href="/logout" class="link">
         <div class="logout_button">
