@@ -19,6 +19,10 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    @Column(name ="last_name") // Да, именно здесь юзаю @Column.
+    private String lastName;
+    private int age;
+    private String email;
     private String password;
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinTable
@@ -28,6 +32,8 @@ public class User implements UserDetails {
                     inverseJoinColumns = @JoinColumn(name = "role_id")
             )
     private Set<Role> roles;
+    @Transient
+    private Role deletedRoleBuffer;
 
 
     public User(String name, String password, Set<Role> roles) {
@@ -44,10 +50,26 @@ public class User implements UserDetails {
 
     }
 
-    public void addRole(Role role) {
+    public User addRole(Role role) {
         if (roles == null)
             roles = new HashSet<>();
         roles.add(role);
+        return this;
+    }
+
+    public User addRoles(Set<Role> roleSet){
+        if (roles == null)
+            roles = new HashSet<>();
+        roles.addAll(roleSet);
+        return this;
+    }
+
+    public boolean haveThisRole(Role role){
+        return roles.contains(role);
+    }
+
+    public boolean haveThisSetOfRoles(Set<Role> roleSet){
+        return roles.containsAll(roleSet);
     }
 
     @Override

@@ -4,10 +4,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
 
 @Configuration
 @EnableWebSecurity
@@ -24,23 +24,33 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
+                .csrf
+                        (
+                                AbstractHttpConfigurer::disable
+
+                        )
                 .authorizeHttpRequests
                         (
-                                auth -> auth.requestMatchers("/admin/**").hasRole("ADMIN") // На "админку" попадет только админ.
-                                        .requestMatchers("/login").permitAll() // Залогиниться может каждый, аутентификация должна быть доступна всем.
+                                auth -> auth
+                                        .requestMatchers("/admin/**").hasRole("ADMIN") // На "админку" попадет только админ.
+                                        .requestMatchers("/auth/login").permitAll() // Залогиниться может каждый, аутентификация должна быть доступна всем.
                                         .anyRequest().hasAnyRole("ADMIN", "USER") // Прочие url для любого авторизированного юзверя.
                         )
                 .formLogin
                         (
                                 fl -> fl
-                                        .successHandler(successUserHandler)
+                                        .loginPage("/auth/login")
+                                        .loginProcessingUrl("/process_login")
+                                        .usernameParameter("email")
+                                        .passwordParameter("password")
+                                        .successHandler(successUserHandler) // Передам класс реализующий логику перенаправление после успешной аутентификации.
                                         .permitAll()
                         )
                 .logout
                         (
                                 lo -> lo
                                         .logoutUrl("/logout")
-                                        .logoutSuccessUrl("/login")
+                                        .logoutSuccessUrl("/auth/login")
                         );
         return http.build();
     }

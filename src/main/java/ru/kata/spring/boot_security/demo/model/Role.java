@@ -4,10 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
-
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -53,10 +51,6 @@ public class Role implements GrantedAuthority {
 
     public Role(String valueOfRole) {
         this.valueOfRole = valueOfRole;
-    }
-
-    public void removeOwnerById(int id) {
-        owners.removeIf(e -> e.getId() == id);
     }
 
     @Override

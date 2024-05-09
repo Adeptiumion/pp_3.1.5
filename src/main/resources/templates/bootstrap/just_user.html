@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Index</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid" style="background-color: #282828">
+        <h4>
+            <form class="navbar-form navbar-left">
+                <strong><span style="color: white" th:text="${default_user_with_id.email}">VALUE</span></strong>
+                <span style="color: white" th:text="${' with roles: ' + default_user_with_id.roles}">VALUE</span>
+            </form>
+        </h4>
+        <ul class="nav navbar-nav navbar-right">
+            <form action="/logout">
+                <button style="color: gray" type="submit" class="btn btn-link">Logout</button>
+            </form>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-md-2" style="padding-left: 0px; padding-right: 0px">
+            <div class="container-fluid" style="padding-left: 0px; padding-right: 0px">
+                <ul class="nav nav-pills nav-stacked" role="tablist">
+                    <li><a th:each="role: ${default_user_with_id.getRoles()}" th:if="${role.toString()}=='ADMIN'"
+                           th:href="@{/admin}">Admin</a></li>
+                    <li class="active"><a th:href="@{/user}">User</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-10">
+
+            <h1>
+                <strong>User information-page</strong>
+            </h1>
+
+            <div class="container-fluid">
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="usersTable">
+                        <div class="panel panel-default">
+
+                            <div class="panel-heading">
+                                <h4><strong>About user</strong></h4>
+                            </div>
+                            <div class="panel-body">
+
+                                <hr style="margin-top: 0; margin-bottom: 0"/>
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Username</th>
+                                        <th>Name</th>
+                                        <th>Age</th>
+                                        <th>Email</th>
+                                        <th>Roles</th>
+                                    </tr>
+                                    </thead>
+                                    <tr th:each="user : ${default_user_with_id}">
+                                        <td th:text="${user.getId}"></td>
+                                        <td th:text="${user.getUsername()}"></td>
+                                        <td th:text="${user.getName()}"></td>
+                                        <td th:text="${user.getAge()}"></td>
+                                        <td th:text="${user.getEmail()}"></td>
+                                        <td>
+                                            <th:block th:each="userRole : ${user.getRoles()}">
+                                                <span th:text="${userRole.toString()}"></span>
+                                            </th:block>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+</body>
+</html>

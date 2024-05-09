@@ -8,14 +8,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -33,18 +30,8 @@ public class UserService implements UserDetailsService {
         this.roleService = roleService;
     }
 
-
     @Transactional
-    public void create(String role, User user) {
-        Role insertableRole = roleService.findByValueOfRole(role); // Передаваемая роль.
-        insertableRole.addOwner(user); // "Сетаю" владельца роли.
-        user.addRole(insertableRole); // Передаю роль челу.
-        userRepository.save(user); // Сохраняю чела.
-        roleService.update(insertableRole.getId(), insertableRole); // Сохраняю роль чела.
-    }
-
-    @Transactional
-    public void nativeCreate(User user) {
+    public void create(User user) {
         userRepository.save(user);
     }
 
@@ -62,58 +49,18 @@ public class UserService implements UserDetailsService {
         if (userIsDetected(id)) {
             System.err.println(updatedUser);
             updatedUser.setId(id);
+            updatedUser.addRoles(readOne(id).getRoles());
+            userServiceLogger.info("delete role buffer is ? -> " + updatedUser.getDeletedRoleBuffer());
+            if (updatedUser.getDeletedRoleBuffer() != null)
+                updatedUser.getRoles().remove(updatedUser.getDeletedRoleBuffer());
             userRepository.save(updatedUser);
         }
 
     }
 
     @Transactional
-    public void updateFields(int id, User user){
-        user.setRoles(readOne(user.getId()).getRoles());
-        update(id, user);
-    }
-
-    @Transactional
-    public void updateRoles(int ownerId, String futureRole) {
-        User user = userRepository.getReferenceById(ownerId); // Получаю юзверя и выношу для дальнейшей передачи в метод обновления юзверя.
-        Role insertableRole = roleService.findByValueOfRole(futureRole); // Присваемая роль юзверю.
-        insertableRole.addOwner(user); // Определяю владельца присваемой роли.
-        roleService.update(insertableRole.getId(), insertableRole);
-        user.addRole(insertableRole); // Передаю роль в пул ролей юзверю.
-        update(ownerId, user); // Обновляю юзверя с новой ролью.
-        roleService.create(insertableRole); // Заношу присвоенную роль в базу.
-    }
-
-    @Transactional
-    public void takeAwayRoleOfUser(String roleId, String ownerId) {
-        Role role = roleService.findOne(Integer.parseInt(roleId));
-        User user = readOne(Integer.parseInt(ownerId));
-        user.getRoles().remove(role);
-        role.getOwners().remove(user);
-        update(user.getId(), user);
-        roleService.update(role.getId(), role);
-    }
-
-    @Transactional
     public void delete(int id) {
         User user = userRepository.getReferenceById(id); // Получу юзверя для передачи в метод удаление роли по владельцу.
-
-        // Очищу из памяти ролей бывшего владельца перед его удалением.
-        for (Role r : user.getRoles()) {
-            Role role = roleService.findOne(r.getId());
-            role.removeOwnerById(id);
-            roleService.update(r.getId(), role);
-        }
-
-        // Так как просят ленивый fetch, то надо подгружать связанные сущности.
-        roleService
-                .readAll()
-                .stream()
-                .map(Role::getOwners)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toSet())
-                .forEach(System.out::println);
-
         userRepository.deleteById(user.getId());
         userServiceLogger.info("User with id " + id + " was deleted!");
 
@@ -160,9 +107,12 @@ public class UserService implements UserDetailsService {
 
         entityManager.flush();
     }
+
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByName(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        userServiceLogger.info("!-start-authentication-!");
+        Optional<User> user = userRepository.findByEmail(email);
+        userServiceLogger.info("User is empty ? -> " + user.isEmpty());
         if (user.isEmpty())
             throw new UsernameNotFoundException("404");
         return user.get();

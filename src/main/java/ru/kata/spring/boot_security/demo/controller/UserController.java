@@ -6,8 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
+import java.security.Principal;
 import java.util.logging.Logger;
 
 @Controller
@@ -25,9 +26,10 @@ public class UserController {
 
 
     @GetMapping()
-    public String userPage(@RequestParam("id") String id, Model model){
+    public String userPage(Model model, Principal principal){
+        User currentUser = userService.findByName(principal.getName());
         userControllerLogger.info("Start show default user!");
-        model.addAttribute("default_user_with_id", userService.readOne(Integer.parseInt(id)));
-        return "user/user";
+        model.addAttribute("default_user_with_id", currentUser);
+        return "bootstrap/just_user";
     }
 }

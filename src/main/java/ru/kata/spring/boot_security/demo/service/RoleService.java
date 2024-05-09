@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
-import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import java.util.List;
 import java.util.logging.Logger;
@@ -28,15 +27,7 @@ public class RoleService {
     public void create(Role role){
         roleRepository.save(role);
     }
-    @Transactional
-    public void delete(int id){
-        roleRepository.deleteById(id);
-    }
 
-    @Transactional
-    public void deleteByOwner(User user){
-        roleRepository.deleteByOwners(user);
-    }
 
     @Transactional
     public void update(int id, Role updatedRole){
@@ -49,10 +40,6 @@ public class RoleService {
 
     public boolean roleIsDetected(int id){
         return roleRepository.findById(id).isPresent();
-    }
-
-    public Role findOne(int id){
-        return roleRepository.findById(id).orElse(null);
     }
 
     public Role findByValueOfRole(String value){

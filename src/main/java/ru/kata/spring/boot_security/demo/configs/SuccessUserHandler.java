@@ -31,9 +31,12 @@ public class SuccessUserHandler implements AuthenticationSuccessHandler {
         if (roles.contains("ROLE_USER") && !roles.contains("ROLE_ADMIN")) {
             int id = userService.findByName(authentication.getName()).getId();
             response.sendRedirect("/user?id=" + id);
-        } else {
+        } else if (roles.contains("ROLE_ADMIN")) {
             handlerLogger.info("Role is - ADMIN.");
             response.sendRedirect("/admin");
+        } else {
+            handlerLogger.warning("USER - 404. Incorrect authentication data!");
+            response.sendRedirect("/login");
         }
 
     }
