@@ -16,6 +16,10 @@ public class Role implements GrantedAuthority {
     public static final Role USER = new Role("USER");
     public static final Role ADMIN = new Role("ADMIN");
 
+    // Константа сравнение с которой дает понимание нужно ли вообще отображать select-кнопку и кнопку добавления роли.
+    @Getter
+    private static final Set<Role> fullRolesContainer = Set.of(new Role("USER"), new Role("ADMIN"));
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -25,11 +29,6 @@ public class Role implements GrantedAuthority {
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private Set<User> owners;
-
-    // Константа сравнение с которой дает понимание нужно ли вообще отображать select-кнопку и кнопку добавления роли.
-    @Getter
-    private static final Set<Role> fullRolesContainer = Set.of(new Role("USER"), new Role("ADMIN"));
-
 
     public void addOwner(User user) {
         if (owners == null) owners = new HashSet<>();
