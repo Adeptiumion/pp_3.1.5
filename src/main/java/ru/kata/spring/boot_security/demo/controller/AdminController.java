@@ -37,15 +37,10 @@ public class AdminController {
     }
 
     @PatchMapping("/update")
-    public String update
-            (
-                    @RequestParam("user_id") String id,
-                    @ModelAttribute("user_with_id") User user
-            ) {
+    public String update(@RequestParam("user_id") String id, @ModelAttribute("user_with_id") User user) {
         adminLogger.info("user before ->>> " + userService.readOne(Integer.parseInt(id)));
         adminLogger.info("user after ->>> " + user);
         adminLogger.info("user id ->>> " + id);
-        adminLogger.info("delete role buffer ->>> " + user.getDeletedRoleBuffer());
         userService.update(Integer.parseInt(id), user);
         return "redirect:/admin";
     }
@@ -64,7 +59,6 @@ public class AdminController {
         model.addAttribute("existingRoles", roleService.readAll());
         model.addAttribute("users", userService.readAll());
         model.addAttribute("newUser", new User());
-        model.addAttribute("marker", usedUser.haveThisRole(roleService.findByValueOfRole("USER")));
         return "bootstrap/index";
     }
 

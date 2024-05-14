@@ -7,11 +7,9 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
-import java.util.logging.Logger;
 
 @Component
 public class Creator {
-    private final Logger creatorLogger = Logger.getLogger(Creator.class.getSimpleName());
     private final UserService userService;
     private final RoleService roleService;
 
@@ -24,7 +22,6 @@ public class Creator {
 
     @Transactional
     public void enrichAndCreateTables() {
-        userService.createAll();
         /* USER */
         Role roleUser = Role.USER;
         User user = User.builder()

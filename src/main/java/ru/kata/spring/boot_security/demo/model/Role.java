@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -13,6 +12,9 @@ import java.util.Set;
 @Getter
 @Setter
 public class Role implements GrantedAuthority {
+
+    public static final Role USER = new Role("USER");
+    public static final Role ADMIN = new Role("ADMIN");
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,22 +28,11 @@ public class Role implements GrantedAuthority {
 
     // Константа сравнение с которой дает понимание нужно ли вообще отображать select-кнопку и кнопку добавления роли.
     @Getter
-    private static final Set<Role> fullRolesContainer = Set.of
-            (
-                    new Role("USER"),
-                    new Role("ADMIN")
-            );
+    private static final Set<Role> fullRolesContainer = Set.of(new Role("USER"), new Role("ADMIN"));
 
-    public static final Role USER = new Role("USER");
-    public static final Role ADMIN = new Role("ADMIN");
-
-    public static List<String> getRolesByStrings(Set<Role> set) {
-        return set.stream().map(e -> "ROLE_" + e.getValueOfRole()).toList();
-    }
 
     public void addOwner(User user) {
-        if (owners == null)
-            owners = new HashSet<>();
+        if (owners == null) owners = new HashSet<>();
         owners.add(user);
     }
 

@@ -2,13 +2,13 @@ package ru.kata.spring.boot_security.demo.configs;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -16,11 +16,10 @@ import java.util.logging.Logger;
 public class SuccessUserHandler implements AuthenticationSuccessHandler {
 
     private static final Logger handlerLogger = Logger.getLogger(SuccessUserHandler.class.getSimpleName());
-    private final UserService userService;
+    private final UserRepository userRepository;
 
-    @Autowired
-    public SuccessUserHandler(UserService userService) {
-        this.userService = userService;
+    public SuccessUserHandler(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     // Spring Security использует объект Authentication, пользователя авторизованной сессии.
@@ -29,7 +28,7 @@ public class SuccessUserHandler implements AuthenticationSuccessHandler {
 
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
         if (roles.contains("ROLE_USER") && !roles.contains("ROLE_ADMIN")) {
-            int id = userService.findByName(authentication.getName()).getId();
+            int id = Objects.requireNonNull(userRepository.findByName(authentication.getName()).orElse(null)).getId();
             response.sendRedirect("/user?id=" + id);
         } else if (roles.contains("ROLE_ADMIN")) {
             handlerLogger.info("Role is - ADMIN.");

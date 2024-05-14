@@ -19,21 +19,14 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @Column(name ="last_name") // Да, именно здесь юзаю @Column.
+    @Column(name = "last_name") // Да, именно здесь юзаю @Column.
     private String lastName;
     private int age;
     private String email;
     private String password;
-    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    @JoinTable
-            (
-                    name = "user_role",
-                    joinColumns = @JoinColumn(name = "user_id"),
-                    inverseJoinColumns = @JoinColumn(name = "role_id")
-            )
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
-    @Transient
-    private Role deletedRoleBuffer;
 
 
     public User(String name, String password, Set<Role> roles) {
@@ -46,29 +39,22 @@ public class User implements UserDetails {
         this.name = name;
         this.password = password;
     }
+
     public User() {
 
     }
 
     public User addRole(Role role) {
-        if (roles == null)
-            roles = new HashSet<>();
+        if (roles == null) roles = new HashSet<>();
         roles.add(role);
         return this;
     }
 
-    public User addRoles(Set<Role> roleSet){
-        if (roles == null)
-            roles = new HashSet<>();
-        roles.addAll(roleSet);
-        return this;
-    }
-
-    public boolean haveThisRole(Role role){
+    public boolean haveThisRole(Role role) {
         return roles.contains(role);
     }
 
-    public boolean haveThisSetOfRoles(Set<Role> roleSet){
+    public boolean haveThisSetOfRoles(Set<Role> roleSet) {
         return roles.containsAll(roleSet);
     }
 
