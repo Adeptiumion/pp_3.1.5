@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.configs;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -18,6 +19,7 @@ public class SuccessUserHandler implements AuthenticationSuccessHandler {
     private static final Logger handlerLogger = Logger.getLogger(SuccessUserHandler.class.getSimpleName());
     private final UserRepository userRepository;
 
+    @Autowired
     public SuccessUserHandler(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
