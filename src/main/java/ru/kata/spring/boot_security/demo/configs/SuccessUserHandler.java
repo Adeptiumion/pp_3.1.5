@@ -34,10 +34,10 @@ public class SuccessUserHandler implements AuthenticationSuccessHandler {
             response.sendRedirect("/user?id=" + id);
         } else if (roles.contains("ROLE_ADMIN")) {
             handlerLogger.info("Role is - ADMIN.");
-            response.sendRedirect("/admin");
+            response.sendRedirect("/admin/index");
         } else {
             handlerLogger.warning("USER - 404. Incorrect authentication data!");
-            response.sendRedirect("/login");
+            response.sendRedirect("/");
         }
 
     }
