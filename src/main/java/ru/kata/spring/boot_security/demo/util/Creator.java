@@ -26,13 +26,12 @@ public class Creator {
     public void enrichAndCreateTables() {
         /* USER */
         Role roleUser = Role.USER;
-        User user = User.builder()
-                .age(23)
-                .name("user")
-                .lastName("user")
-                .email("user@mail.ru")
-                .password("user")
-                .build();
+        User user = new User()
+                .setAge(23)
+                .setName("user")
+                .setLastName("user")
+                .setEmail("user@mail.ru")
+                .setPassword("user");
         roleUser.addOwner(user);
         user.addRole(roleUser);
         userService.create(user);
@@ -40,13 +39,12 @@ public class Creator {
 
         /* ADMIN */
         Role roleAdmin = Role.ADMIN;
-        User admin = User.builder()
-                .age(23)
-                .name("admin")
-                .lastName("admin")
-                .email("admin@mail.ru")
-                .password("admin")
-                .build();
+        User admin = new User()
+                .setAge(23)
+                .setName("admin")
+                .setLastName("admin")
+                .setEmail("admin@mail.ru")
+                .setPassword("admin");
         roleAdmin.addOwner(admin);
         roleUser.addOwner(admin);
         admin

@@ -25,9 +25,15 @@ public class RoleService {
         roleRepository.save(role);
     }
 
-    public Role findByValueOfRole(String value){
-        return roleRepository.findByValueOfRole(value);
+    public Role getById(int id){
+       return roleRepository.getReferenceById(id);
     }
+
+    public Role getByValueOfRole(String valueOfRole){
+        return roleRepository.getByValueOfRole(valueOfRole);
+    }
+
+
 
 
 }

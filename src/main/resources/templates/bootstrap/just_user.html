@@ -1,107 +1,77 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"s
+      lang="en"
+      style="height: 100%">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Index</title>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Users</title>
 </head>
-<body>
-
-
-<nav class="navbar navbar-default" role="navigation">
-    <div class="container-fluid" style="background-color: #282828">
-        <h4>
-            <form class="navbar-form navbar-left">
-                <strong><span style="color: white" th:text="${default_user_with_id.email}">VALUE</span></strong>
-                <span style="color: white" th:text="${' with roles: ' + default_user_with_id.roles}">VALUE</span>
-            </form>
-        </h4>
-        <ul class="nav navbar-nav navbar-right">
-            <form action="/logout">
-                <button style="color: gray" type="submit" class="btn btn-link">Logout</button>
-            </form>
-        </ul>
-    </div>
+<body style="background-color: #f8f9fa ; height: 100%">
+<nav style="color: white" class="navbar navbar-dark bg-dark">
+    <span id="span"></span>
+    <form class="form-inline">
+        <a style="color: gray" class="navbar-brand" href='/logout'>logout</a>
+    </form>
 </nav>
 
-<div class="container-fluid">
-    <div class="row">
+<div class="container-fluid h-100 d-flex">
 
-        <div class="col-md-2" style="padding-left: 0px; padding-right: 0px">
-            <div class="container-fluid" style="padding-left: 0px; padding-right: 0px">
-                <ul class="nav nav-pills nav-stacked" role="tablist">
-                    <li><a th:if="${marker}"
-                           th:href="@{/admin}">Admin</a></li>
-                    <li class="active"><a th:href="@{/user}">User</a></li>
-                </ul>
+    <div class="row w-100 h-100">
+
+        <div  style="background-color: white; padding-left: 0; padding-top: 10px; padding-right: 0" class="col-sm">
+            <div id="admin">
+                <a style="border: 0; padding-right: 155px; background-color: white; color: blue" type="button" class="btn btn-outline-secondary btn-block " href="/admin">Admin</a>
             </div>
+
+            <button style="padding-right: 170px" class="btn btn-primary btn-block" onclick="window.location.href='/user'">User</button>
         </div>
 
-        <div class="col-md-10">
+        <div class="col-sm-10">
+            <h1 id="hhh">User information-page</h1>
 
-            <h1>
-                <strong>User information-page</strong>
-            </h1>
+            <div style="background-color: white; border: 1px solid #ccc;border-radius: 5px;" class="tab-content">
+                <div id="userstable" class="tab-pane fade show active">
 
-            <div class="container-fluid">
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="usersTable">
-                        <div class="panel panel-default">
-
-                            <div class="panel-heading">
-                                <h4><strong>About user</strong></h4>
-                            </div>
-                            <div class="panel-body">
-
-                                <hr style="margin-top: 0; margin-bottom: 0"/>
-                                <table class="table table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Username</th>
-                                        <th>Name</th>
-                                        <th>Age</th>
-                                        <th>Email</th>
-                                        <th>Roles</th>
-                                    </tr>
-                                    </thead>
-                                    <tr>
-                                        <td th:text="${default_user_with_id.getId()}"></td>
-                                        <td th:text="${default_user_with_id.getUsername()}"></td>
-                                        <td th:text="${default_user_with_id.getName()}"></td>
-                                        <td th:text="${default_user_with_id.getAge()}"></td>
-                                        <td th:text="${default_user_with_id.getEmail()}"></td>
-                                        <td>
-                                            <th:block th:each="userRole : ${default_user_with_id.getRoles()}">
-                                                <span th:text="${userRole.toString()}"></span>
-                                            </th:block>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
+                    <nav  class="navbar navbar-light bg-light">
+                        <span class="navbar-brand mb-0 h1">About user</span>
+                    </nav>
+                    <div class="container-fluid mt-3 mb-3">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">First name</th>
+                                <th scope="col">Last name</th>
+                                <th scope="col">age</th>
+                                <th scope="col">email</th>
+                                <th scope="col">role</th>
+                            </tr>
+                            </thead>
+                            <tbody id = "tableBody">
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+
             </div>
 
         </div>
+
     </div>
+
 </div>
 
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="/User.js"></script>
 </body>
 </html>
