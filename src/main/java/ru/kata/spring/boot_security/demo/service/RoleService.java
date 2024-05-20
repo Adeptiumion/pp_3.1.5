@@ -15,25 +15,14 @@ public class RoleService {
     public RoleService(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
-
     public List<Role> readAll(){
         return roleRepository.findAll();
     }
-
     @Transactional
     public void create(Role role){
         roleRepository.save(role);
     }
-
     public Role getById(int id){
        return roleRepository.getReferenceById(id);
     }
-
-    public Role getByValueOfRole(String valueOfRole){
-        return roleRepository.getByValueOfRole(valueOfRole);
-    }
-
-
-
-
 }

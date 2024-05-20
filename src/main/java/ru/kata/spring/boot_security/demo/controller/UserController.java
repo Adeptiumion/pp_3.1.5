@@ -16,12 +16,10 @@ import java.util.logging.Logger;
 public class UserController {
     private final Logger userControllerLogger = Logger.getLogger(UserController.class.getSimpleName());
     private final UserService userService;
-
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
 
     @GetMapping
     public ResponseEntity<User> getAUthUser(@AuthenticationPrincipal User user) {

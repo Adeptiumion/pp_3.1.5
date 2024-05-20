@@ -12,10 +12,8 @@ public class SpringBootSecurityDemoApplication {
     public SpringBootSecurityDemoApplication(Creator creator) {
         SpringBootSecurityDemoApplication.creator = creator;
     }
-
     public static void main(String[] args) {
 		SpringApplication.run(SpringBootSecurityDemoApplication.class, args);
         creator.enrichAndCreateTables();
 	}
-
 }

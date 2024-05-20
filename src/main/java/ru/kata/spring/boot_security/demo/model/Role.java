@@ -13,14 +13,6 @@ import java.util.Set;
 @Getter
 @Setter
 public class Role implements GrantedAuthority {
-
-    public static final Role USER = new Role("USER");
-    public static final Role ADMIN = new Role("ADMIN");
-
-    // Константа сравнение с которой дает понимание нужно ли вообще отображать select-кнопку и кнопку добавления роли.
-    @Getter
-    private static final Set<Role> fullRolesContainer = Set.of(new Role("USER"), new Role("ADMIN"));
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -28,7 +20,7 @@ public class Role implements GrantedAuthority {
     @Column(name = "value_of_role")
     private String valueOfRole;
 
-    @JsonIgnore
+    @JsonIgnore // Чтоб не было рекурсии в Json.
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private Set<User> owners;
 

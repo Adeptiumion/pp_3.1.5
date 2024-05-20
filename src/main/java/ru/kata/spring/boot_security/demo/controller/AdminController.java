@@ -22,7 +22,6 @@ public class AdminController {
     private static final Logger adminLogger = Logger.getLogger(AdminController.class.getSimpleName());
     private final UserService userService;
     private final RoleService roleService;
-
     @Autowired
     public AdminController(RoleService roleService, UserService userService) {
         this.userService = userService;
@@ -36,13 +35,11 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
     @PostMapping("/create_user")
     public ResponseEntity<HttpStatus> create(@RequestBody User user) {
         userService.create(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 
     @PatchMapping("/update")
     public ResponseEntity<HttpStatus> update(@RequestBody UserDTO userDTO) {
@@ -55,10 +52,9 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
     @GetMapping("/index")
     public ResponseEntity<List<User>> index() {
-        List<User> users = userService.readAllWithLoadRoles();
+        List<User> users = userService.readAll();
         adminLogger.info("index:  " + users);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }

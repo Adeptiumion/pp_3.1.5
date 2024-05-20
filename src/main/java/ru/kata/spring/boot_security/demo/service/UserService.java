@@ -21,15 +21,12 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-
-
     @Autowired
     public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
     @Transactional
     public void create(User user) {
         if (user.getRoles().isEmpty())
@@ -38,25 +35,13 @@ public class UserService implements UserDetailsService {
         user.setPassword(encodedPassword);
         userRepository.save(user);
     }
-
-    @Deprecated
     public List<User> readAll() {
         List<User> users = userRepository.findAll();
         return users;
     }
-
-
-    @Transactional
-    public List<User> readAllWithLoadRoles(){
-        List<User> userList = userRepository.findAllWithRoles();
-        userServiceLogger.info("readAllWithLoadRoles: " + userList);
-        return userRepository.findAllWithRoles();
-    }
-
     public User readOne(int id) {
         return userRepository.getReferenceById(id);
     }
-
     @Transactional
     public void update(int id, User updatedUser) {
         if (updatedUser.getRoles().isEmpty())
@@ -67,9 +52,7 @@ public class UserService implements UserDetailsService {
             updatedUser.setId(id);
             userRepository.save(updatedUser);
         }
-
     }
-
     @Transactional
     public void delete(int id) {
         User user = userRepository.getReferenceById(id); // Получу юзверя для передачи в метод удаление роли по владельцу.
@@ -77,15 +60,12 @@ public class UserService implements UserDetailsService {
         userServiceLogger.info("User with id " + id + " was deleted!");
 
     }
-
     public User getById(int id) {
         return userRepository.getReferenceById(id);
     }
-
     public boolean userIsDetected(int id) {
         return userRepository.findById(id).isPresent();
     }
-
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         userServiceLogger.info("!-start-authentication-!");
@@ -94,6 +74,4 @@ public class UserService implements UserDetailsService {
         if (user.isEmpty()) throw new UsernameNotFoundException("404");
         return user.get();
     }
-
-
 }

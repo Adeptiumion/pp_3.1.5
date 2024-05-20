@@ -25,7 +25,7 @@ public class Creator {
     @Transactional
     public void enrichAndCreateTables() {
         /* USER */
-        Role roleUser = Role.USER;
+        Role roleUser = new Role("USER");
         User user = new User()
                 .setAge(23)
                 .setName("user")
@@ -38,7 +38,7 @@ public class Creator {
         roleService.create(roleUser);
 
         /* ADMIN */
-        Role roleAdmin = Role.ADMIN;
+        Role roleAdmin = new Role("ADMIN");
         User admin = new User()
                 .setAge(23)
                 .setName("admin")

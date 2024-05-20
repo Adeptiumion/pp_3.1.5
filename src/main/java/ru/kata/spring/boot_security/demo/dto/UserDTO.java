@@ -1,9 +1,7 @@
 package ru.kata.spring.boot_security.demo.dto;
 
 import lombok.*;
-
 import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
