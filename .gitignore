@@ -36,6 +36,6 @@ build/
 src/main/java/ru/kata/spring/boot_security/demo/main
 src/main/java/ru/kata/spring/boot_security/demo/sql
 
-src/main/java/ru/kata/spring/boot_security/demo/configs/JUnitConfig.java
+src/main/java/ru/kata/spring/boot_security/demo/configs/JUnitConfig
 src/main/java/ru/kata/spring/boot_security/demo/json
 src/test/test
