@@ -5,15 +5,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.dto.RoleDTO;
 import ru.kata.spring.boot_security.demo.dto.UserDTO;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
-import java.util.HashSet;
+import ru.kata.spring.boot_security.demo.util.Convertable;
+
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Logger;
 
 @RestController
@@ -22,10 +21,13 @@ public class AdminController {
     private static final Logger adminLogger = Logger.getLogger(AdminController.class.getSimpleName());
     private final UserService userService;
     private final RoleService roleService;
+    private final Convertable mapper;
+
     @Autowired
-    public AdminController(RoleService roleService, UserService userService) {
+    public AdminController(RoleService roleService, UserService userService, Convertable mapper) {
         this.userService = userService;
         this.roleService = roleService;
+        this.mapper = mapper;
     }
 
     @DeleteMapping("/delete")
@@ -46,26 +48,25 @@ public class AdminController {
         adminLogger.info("start update user endpoint logic!\n");
         adminLogger.info("update(user): " + userDTO.toString());
         adminLogger.info("update(user.getRoles()): " + userDTO.getRoles());
-        User user = convertToUser(userDTO);
-        userService.update(user.getId(), user);
+        userService.update(userDTO.getId(), mapper.convertToUser(userDTO));
         adminLogger.info("end update user endpoint logic!\n");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/index")
-    public ResponseEntity<List<User>> index() {
+    public ResponseEntity<List<User>> showAll() {
         List<User> users = userService.readAll();
         adminLogger.info("index:  " + users);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("/roles")
-    public ResponseEntity<List<Role>> existingRoles() {
+    public ResponseEntity<List<Role>> getExistingRoles() {
         return new ResponseEntity<>(roleService.readAll(), HttpStatus.OK);
     }
 
     @GetMapping("/current_user")
-    public ResponseEntity<User> currentUser(@AuthenticationPrincipal User user) {
+    public ResponseEntity<User> getCurrentUser(@AuthenticationPrincipal User user) {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
@@ -75,18 +76,4 @@ public class AdminController {
         return new ResponseEntity<>(userService.getById(id), HttpStatus.OK);
     }
 
-    public User convertToUser(UserDTO userDTO) {
-        User user = new User();
-        user.setId(userDTO.getId());
-        user.setName(userDTO.getName());
-        user.setAge(userDTO.getAge());
-        user.setEmail(userDTO.getEmail());
-        user.setLastName(userDTO.getLastName());
-        user.setPassword(userDTO.getPassword());
-        Set<Role> roles = new HashSet<>();
-        for (RoleDTO idOfRole : userDTO.getRoles())
-            roles.add(roleService.getById(idOfRole.getId()));
-        user.setRoles(roles);
-        return user;
-    }
 }

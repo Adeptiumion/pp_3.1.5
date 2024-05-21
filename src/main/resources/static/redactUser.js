@@ -46,7 +46,7 @@ const closeEditModal = () => {
 
 const editModal = async (id) => {
     console.log(`Id is ->>> ${id}`);
-    const response = await fetch(`http://localhost:8080/api/admin/get_user_by_id?id=${id}`);
+    const response = await fetch(`/api/admin/get_user_by_id?id=${id}`);
     const user = await response.json();
     redactUser(user);
 }
@@ -58,7 +58,7 @@ formEditUser.addEventListener('submit', async (event) => {
         ...getFormValues(),
         roles: getRoles()
     })
-    const response = await fetch(`http://localhost:8080/api/admin/update`, 
+    const response = await fetch(`/api/admin/update`,
     {
         method: 'PATCH',
         headers: {"Content-Type": "application/json"},

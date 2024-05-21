@@ -34,7 +34,7 @@ const resetNewForm = () => {
 formNewUser.addEventListener('submit', async (event) => {
     event.preventDefault();
     const tableAdmin = document.querySelector('#tableAdmin');
-    const response = await fetch("http://localhost:8080/api/admin/create_user", {
+    const response = await fetch("/api/admin/create_user", {
         method: 'POST',
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({

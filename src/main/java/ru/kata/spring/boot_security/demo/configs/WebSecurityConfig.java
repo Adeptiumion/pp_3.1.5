@@ -12,9 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-
     private final SuccessUserHandler successUserHandler;
-
     public WebSecurityConfig(SuccessUserHandler successUserHandler) {
         this.successUserHandler = successUserHandler;
     }

@@ -2,7 +2,7 @@
 // Функция принимающая по api залогиненного юзверя.
 const getAuthorizeUser = async () => {
     try {
-        const response = await fetch("http://localhost:8080/api/user"); // Ожидание исполнение и "непереход" книжней части тела функции(аналог '.then', ).
+        const response = await fetch("/api/user"); // Ожидание исполнение и "непереход" книжней части тела функции(аналог '.then', ).
         const user = await response.json(); // Такое же ожидание, что и выше(дальше это комментировать не буду). Получаю респонс/преобразую в JSON.
         const userDescription = document.querySelector('#span'); // Захватываю элемент дом-дерева.
         userDescription.innerHTML = setAuthorizeUser(user); // Передаю в функцию данные юзверя, чтобы сформировать строку верстки. Монтирую возращаемую верстку в тот элемент, который я нашел при помощи querySelector.
@@ -19,7 +19,7 @@ const setAuthorizeUser = (user) => {
 const getAllUsers = async () => {
     try {
         const table = document.querySelector('#tbody');
-        const usersPool = await fetch("http://localhost:8080/api/admin/index");
+        const usersPool = await fetch("/api/admin/index");
         const preparedUsers = await usersPool.json();
         let rowsOfUsers = '';
         for (let user of preparedUsers) {

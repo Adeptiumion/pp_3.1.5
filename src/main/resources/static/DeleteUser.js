@@ -2,7 +2,7 @@ const formDeleteUser = document.querySelector('#deleteForm')
 
 
 const deleteModal = async (id) => {
-    const response = await fetch(`http://localhost:8080/api/admin/${id}`);
+    const response = await fetch(`/api/admin/${id}`);
     const user = await response.json();
     console.log("response user", user)
     getDeleteModelInfo(user);
@@ -32,7 +32,7 @@ const getDeleteModelInfo = ({id, name, lastName, age, email, password}) => {
 
 formDeleteUser.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const response = await fetch(`http://localhost:8080/api/admin/delete?id=${getDeleteFormItemByName("idDelete").value}`, {
+    const response = await fetch(`/api/admin/delete?id=${getDeleteFormItemByName("idDelete").value}`, {
         method: 'DELETE'
     })
     getAllUsers();

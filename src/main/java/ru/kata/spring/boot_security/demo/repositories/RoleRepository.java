@@ -6,7 +6,5 @@ import ru.kata.spring.boot_security.demo.model.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Integer> {
-    @Override
-    Role getReferenceById(Integer integer);
     Role getByValueOfRole(String valueOfRole);
 }
