@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface RoleService {
     List<Role> readAll();
-
     @Transactional
     void create(Role role);
 
